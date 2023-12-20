@@ -1,0 +1,7 @@
+pytorch=1.13.1=*11.7_cudnn8.5.0*
+torchaudio=0.13.1=*cu117*
+torchvision=0.14.1=*cu117*
+pytorch-cuda=11.7
+plyfile=0.8.1
+tqdm=4.64.1
+pip

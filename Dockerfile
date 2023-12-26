@@ -1,5 +1,7 @@
 FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
+ARG user
+
 # Do not check for keyboard type and answer with default
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -65,22 +67,22 @@ RUN rm -rf colmap
 
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py37_23.1.0-1-Linux-x86_64.sh \
-    && bash Miniconda3-py37_23.1.0-1-Linux-x86_64.sh -b -p /home/miniconda \
+    && bash Miniconda3-py37_23.1.0-1-Linux-x86_64.sh -b -p /home/${user}/miniconda \
     && rm Miniconda3-py37_23.1.0-1-Linux-x86_64.sh
 
-ENV PATH="/home/miniconda/bin:${PATH}"
+ENV PATH="/home/${user}/miniconda/bin:${PATH}"
 
 RUN conda init bash
 
-WORKDIR /home/
+WORKDIR /home/${user}
 
 # Clone Gaussian-splatting repository
 RUN git clone https://github.com/graphdeco-inria/gaussian-splatting.git --recursive
 
 # Build and install SIBR viewers
-WORKDIR /home/gaussian-splatting
+WORKDIR /home/${user}/gaussian-splatting
 
-COPY requirements_conda.txt /root/gaussian-splatting/
+COPY requirements_conda.txt /home/${user}/gaussian-splatting/
 
 RUN cd SIBR_viewers \
     && cmake -Bbuild . -DCMAKE_BUILD_TYPE=Release -GNinja \

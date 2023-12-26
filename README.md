@@ -6,10 +6,10 @@ If **Docker Desktop** is installed, make sure the image is built with `sudo` pri
 
 ```[bash]
 # Make sure you have 'nvidia-container-toolkit' installed on your host computer
-sudo docker build -t splat:base .
+sudo docker build --build-arg user=${USER} -t splat:base .
 ```
 
-- Check Dockerfile for build info.
+- Check Dockerfile for build details.
 
 [Install NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
@@ -29,17 +29,30 @@ sudo x11docker -i --sudouser --gpu --runtime=nvidia --xwayland splat:base
 
 Please refer to [x11docker manual](https://github.com/mviereck/x11docker?tab=readme-ov-file#security) for any user permission problems inside the container.
 
+### Sudo Privileges (Important)
+
+Conda is only available with root user. Set user to `root` when attached to a running container.
+
+```[bash]
+# Password is always x11docker
+username@9ceb007da3a5:~$ su
+Password: x11docker
+```
+
 ### Sharing files or folders from Host
 
 [x11docker manual](https://github.com/mviereck/x11docker?tab=readme-ov-file#shared-folders-volumes-and-home-in-container)
 
+Check the example below.
+
 ```[bash]
-# Example
 # Path must be absolute or it can be a VOLUME
 sudo x11docker -i --sudouser --gpu --runtime=nvidia --xwayland --share /home/${USER}/train_dataset/example splat:base
 ```
 
 The contents in the shared path can be accessed in the container using the same path.
+
+You can also use `docker cp` with the running container.
 
 ## SIBR Viewer Unsolved Error
 

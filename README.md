@@ -13,15 +13,25 @@ sudo docker build --build-arg user=${USER} -t splat:base .
 
 [Install NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
-## X Server Forwarding Prerequisite
+## Docker run container (Linux and WSL)
 
-### Install [x11docker](https://github.com/mviereck/x11docker) (Linux and Windows Subsystem for Linux)
+```[bash]
+sudo docker run -it --gpus all splat:base
+```
+
+COLMAP and Gaussian splat pipeline available via CLI.
+
+## How to start GUI container with built image on Linux
+
+### X Server Forwarding Prerequisite
+
+Install [x11docker](https://github.com/mviereck/x11docker) (On Linux)
 
 ```[bash]
 curl -fsSL https://raw.githubusercontent.com/mviereck/x11docker/master/x11docker | sudo bash -s -- --update
 ```
 
-## How to start container with built image
+### Run the container instance
 
 ```[bash]
 sudo x11docker -i --sudouser --gpu --runtime=nvidia --xwayland splat:base
@@ -52,8 +62,8 @@ sudo x11docker -i --sudouser --gpu --runtime=nvidia --xwayland --share /home/${U
 
 The contents in the shared path can be accessed in the container using the same path.
 
-You can also use `docker cp` with the running container.
+You can also use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) with the running container.
 
 ## SIBR Viewer Unsolved Error
 
-- When launching SIBR viewer, OpenGL/CUDA interop error occurs that forces rendering to be done on the CPU. The solution to this problem is still not found.
+- When launching SIBR viewer, OpenGL/CUDA interop error occurs that forces scene rendering to be done on the CPU. The solution to this problem is still not found.

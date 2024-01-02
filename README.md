@@ -19,9 +19,11 @@ sudo docker build --build-arg user=${USER} -t splat:base .
 sudo docker run -it --gpus all splat:base
 ```
 
-COLMAP and Gaussian splat pipeline available via CLI.
+COLMAP and Gaussian splat pipeline will be available via CLI.
 
 ## How to start GUI container with built image on Linux
+
+The following instruction will allow the execution of `colmap gui` and **SIBR viewer** for visualization of data
 
 ### X Server Forwarding Prerequisite
 
